@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact — Philippe Lazoore</title>
+  <meta name="description" content="Contacter Philippe Lazoore : téléphone, e-mail et adresse.">
+
+  <script>document.documentElement.classList.add("js");</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500&display=swap">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <!-- ===================== EN-TÊTE ===================== -->
+  <header class="site-header">
+    <div class="container site-header__bar">
+      <a class="site-logo" href="index.html">Philippe Lazoore</a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Ouvrir le menu">
+        <span class="menu-toggle__icon" aria-hidden="true"></span>
+      </button>
+
+      <nav id="main-nav" class="main-nav" aria-label="Navigation principale">
+        <ul class="main-nav__list">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="acteur.html">Acteur</a></li>
+          <li><a href="musique.html">Musique</a></li>
+          <li><a href="spectacles.html">Spectacles</a></li>
+          <li><a href="videos.html">Vidéos</a></li>
+          <li><a href="presse.html">Presse</a></li>
+          <li><a href="contact.html" aria-current="page">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <!-- ===================== TITRE ===================== -->
+    <div class="container page-intro">
+      <h1 class="page-title">Contact</h1>
+    </div>
+
+    <section class="section" aria-label="Coordonnées">
+      <div class="container">
+        <!-- <dl> : une liste de « termes » (dt) et de « valeurs » (dd),
+             parfaite pour des coordonnées -->
+        <dl class="contact-list reveal">
+          <div class="contact-list__item">
+            <dt>Portable</dt>
+            <dd><a href="tel:+33687829076">06 87 82 90 76</a></dd>
+          </div>
+          <div class="contact-list__item">
+            <dt>Téléphone fixe</dt>
+            <dd><a href="tel:+33000000000">[Numéro fixe]</a></dd>
+          </div>
+          <div class="contact-list__item">
+            <dt>E-mail</dt>
+            <dd>
+              <a href="mailto:p.lazoore@orange.fr">p.lazoore@orange.fr</a><br>
+              <a href="mailto:lazoore1@gmail.com">lazoore1@gmail.com</a>
+            </dd>
+          </div>
+          <div class="contact-list__item">
+            <dt>Adresse</dt>
+            <dd>
+              <address>[Adresse postale]</address>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== PIED DE PAGE ===================== -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__links">
+        <span class="site-footer__name">Philippe Lazoore</span>
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="confidentialite.html">Politique de confidentialité</a>
+      </div>
+      <p>© 2027 Philippe Lazoore</p>
+    </div>
+  </footer>
+</body>
+</html>

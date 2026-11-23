@@ -1,0 +1,924 @@
+/* =========================================================
+   Site de Philippe Lazoore — feuille de style principale
+   Approche mobile first : les styles de base visent le
+   smartphone, puis chaque palier (media query min-width)
+   ajoute ce qui change pour les écrans plus larges.
+     - base    : smartphone (< 768 px)
+     - 48em    : tablette   (≥ 768 px)
+     - 64em    : ordinateur (≥ 1024 px) → menu complet
+   ========================================================= */
+
+/* ---------- 1. Variables ---------- */
+:root {
+  /* Couleurs (contrastes vérifiés sur le fond) */
+  --color-bg: #121212;          /* noir doux, la « scène » */
+  --color-surface: #1c1b1a;     /* fond des zones photo vides */
+  --color-text: #edeae4;        /* blanc cassé, 15,6:1 */
+  --color-text-muted: #a8a29a;  /* gris chaud, 7,4:1 */
+  --color-text-soft: #d6d1c8;   /* texte clair sur photo */
+  --color-border: #2a2a2a;
+  --color-border-strong: #4a4640;
+  --color-hover-bg: rgba(237, 234, 228, 0.08);
+
+  /* Typographies */
+  --font-title: "Cormorant Garamond", Georgia, serif;
+  --font-text: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Espacements et largeur maximale */
+  --gutter: 1.25rem;            /* marge latérale : 20 px */
+  --section-space: 3.5rem;      /* espace vertical des sections */
+  --container: 75rem;           /* 1200 px */
+}
+
+/* ---------- 2. Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-text);
+  font-size: 1.0625rem; /* 17 px sur mobile */
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--color-text);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--font-title);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+p {
+  margin: 0;
+}
+
+/* Contour visible au clavier, pour l'accessibilité */
+:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+/* Lien d'évitement : invisible tant qu'on ne tabule pas dessus */
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: -100px;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--color-text);
+  color: var(--color-bg);
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+/* Conteneur centré, réutilisé partout */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------- 3. En-tête et menu ---------- */
+.site-header {
+  border-bottom: 1px solid var(--color-border);
+  position: relative; /* ← repère pour placer le menu */
+  z-index: 10;        /* ← passe devant le hero et le reste */
+}
+
+.site-header__bar {
+  display: flex;
+  flex-wrap: wrap; /* le menu mobile passe sur sa propre ligne */
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.75rem;
+}
+
+.site-logo {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+/* Bouton burger : 48 × 48 px, au-dessus des 44 px conseillés */
+.menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 6px;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.menu-toggle:hover {
+  background-color: var(--color-hover-bg);
+}
+
+/* Les trois traits du burger, qui se transforment en croix */
+.menu-toggle__icon,
+.menu-toggle__icon::before,
+.menu-toggle__icon::after {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: currentColor;
+  border-radius: 1px;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.menu-toggle__icon {
+  position: relative;
+}
+
+.menu-toggle__icon::before,
+.menu-toggle__icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.menu-toggle__icon::before {
+  top: -7px;
+}
+
+.menu-toggle__icon::after {
+  top: 7px;
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__icon {
+  background-color: transparent;
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__icon::before {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__icon::after {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Menu mobile : caché par défaut, affiché quand il a la classe is-open */
+.main-nav {
+  display: none;
+  position: absolute;               /* ← sort du flux : ne pousse plus rien */
+  top: 100%;                        /* ← juste sous l'en-tête */
+  left: 0;
+  right: 0;                         /* ← toute la largeur */
+  padding-inline: var(--gutter);    /* ← mêmes marges que le reste */
+  background-color: var(--color-bg);  /* ← fond opaque, sinon on voit à travers */
+  border-bottom: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border);
+  padding-block: 0.5rem 1.25rem;
+}
+
+.main-nav.is-open {
+  display: block;
+}
+
+.main-nav__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.main-nav a {
+  display: block;
+  padding: 0.875rem 0.5rem;
+  border-radius: 6px;
+  color: var(--color-text-muted);
+  font-size: 1.125rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+/* La petite surbrillance au survol, demandée pour le menu */
+.main-nav a:hover {
+  color: var(--color-text);
+  background-color: var(--color-hover-bg);
+}
+
+.main-nav a[aria-current="page"] {
+  color: var(--color-text);
+}
+
+/* ---------- 4. Hero ---------- */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 35rem; /* 560 px sur mobile */
+  overflow: hidden;
+  background-color: var(--color-surface);
+}
+
+.hero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* On garde le visage dans le cadre quand l'image est recadrée */
+  object-position: 38% 15%;
+}
+
+/* Voile sombre sous le texte : garantit le contraste sur la photo */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(18, 18, 18, 0.95) 0%,
+    rgba(18, 18, 18, 0.6) 40%,
+    rgba(18, 18, 18, 0) 70%
+  );
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1; /* passe au-dessus du voile */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-block: 3.5rem 2.25rem;
+}
+
+.hero__kicker {
+  color: var(--color-text-soft);
+  font-size: 0.8125rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.hero__title {
+  font-size: 2.75rem; /* 44 px */
+  line-height: 1.05;
+}
+
+.hero__tagline {
+  font-family: var(--font-title);
+  font-size: 1.375rem;
+  line-height: 1.4;
+}
+
+/* ---------- 5. Sections ---------- */
+.section {
+  border-top: 1px solid var(--color-border);
+  padding-block: var(--section-space);
+}
+
+.section__title {
+  font-size: 2rem; /* 32 px */
+  margin-bottom: 1.5rem;
+}
+
+.section__kicker {
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+/* Zone photo vide, en attendant les vraies photos */
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: 4px;
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.ratio-portrait {
+  aspect-ratio: 4 / 5;
+}
+
+.ratio-square {
+  aspect-ratio: 1 / 1;
+}
+
+.ratio-video {
+  aspect-ratio: 16 / 9;
+}
+
+/* ---------- 6. Biographie (blocs photo + texte) ---------- */
+.bio {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* Mobile : la photo au-dessus, le texte en dessous (ordre du HTML) */
+.bio-row {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.bio-row__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ---------- 7. Reportage vidéo ---------- */
+.video {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* La vidéo YouTube n'est chargée qu'au clic (voir main.js) :
+   la page reste légère et aucun cookie YouTube avant le clic. */
+.video-facade {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  border: 0;
+  background-color: var(--color-surface);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* <picture> est « inline » par défaut : on lui donne la taille du bouton
+   pour que l'image puisse remplir tout le cadre */
+.video-facade picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.video-facade img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
+}
+
+.video-facade:hover img {
+  opacity: 1;
+}
+
+.video-facade__play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 4.5rem;
+  height: 4.5rem;
+  color: var(--color-text);
+}
+
+.video-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+/* Zone vide en attendant l'image d'une playlist (page Vidéos) */
+.video-facade__ph {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+}
+
+/* ---------- 8. Page rubrique (ex. Acteur) ---------- */
+.page-intro {
+  padding-block: var(--section-space) 2rem;
+}
+
+.page-title {
+  font-size: 2.75rem;
+  line-height: 1.05;
+  margin-bottom: 1rem;
+}
+
+/* Petit menu des sections de la page */
+.subnav__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.125rem;
+  margin: 0 0 0 -0.875rem;
+  padding: 0;
+  list-style: none;
+}
+
+.subnav a {
+  display: block;
+  padding: 0.75rem 0.875rem;
+  border-radius: 6px;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.subnav a:hover {
+  color: var(--color-text);
+  background-color: var(--color-hover-bg);
+}
+
+/* Modèle de section unique : titre + texte + photos */
+.topic {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.topic__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Dans un bloc qui gère déjà l'espacement avec gap,
+   on retire la marge du titre pour ne pas la compter deux fois */
+.topic__text .section__title,
+.video .section__title {
+  margin-bottom: 0;
+}
+
+.topic__subtitle {
+  margin-top: 0.5rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-text);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Liste des films */
+.film-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--color-border);
+}
+
+.film-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Grille de photos : 2 colonnes sur mobile */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+/* ---------- 9. Pages Musique, Spectacles, Presse et Contact ---------- */
+
+/* Listes simples (chanteurs, artistes, pays) :
+   columns répartit les éléments en colonnes, comme un journal */
+.simple-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  columns: 2;
+  column-gap: 1.5rem;
+}
+
+.simple-list li {
+  padding-block: 0.25rem;
+  break-inside: avoid; /* un nom ne se coupe jamais entre deux colonnes */
+}
+
+/* Discographie */
+.album-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem;
+}
+
+.album {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.album__title {
+  font-size: 1.75rem;
+}
+
+/* Paroles repliables avec <details> / <summary> */
+.lyrics {
+  border-top: 1px solid var(--color-border);
+}
+
+.lyrics summary {
+  padding-block: 0.75rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.lyrics summary:hover {
+  color: var(--color-text);
+}
+
+.lyrics__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.lyrics__song {
+  font-size: 1.25rem;
+}
+
+.lyrics__text {
+  color: var(--color-text-muted);
+  white-space: pre-line; /* garde les retours à la ligne des paroles */
+}
+
+/* Presse : 2 colonnes sur mobile */
+.press-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.press-item__link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.press-item__link .placeholder {
+  transition: border-color 0.2s ease;
+}
+
+.press-item__link:hover .placeholder {
+  border-color: var(--color-text-muted);
+}
+
+.press-item__caption {
+  font-family: var(--font-title);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Contact */
+.contact-list {
+  display: grid;
+  gap: 2rem;
+  margin: 0;
+}
+
+.contact-list dt {
+  margin-bottom: 0.25rem;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.contact-list dd {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+
+.contact-list a {
+  text-decoration: none;
+}
+
+.contact-list a:hover {
+  text-decoration: underline;
+}
+
+.contact-list address {
+  font-style: normal; /* <address> est en italique par défaut */
+}
+
+/* ---------- 10. Pied de page ---------- */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  padding-block: 3rem;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.site-footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.site-footer__name {
+  color: var(--color-text);
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.site-footer a {
+  display: inline-block;
+  padding-block: 0.25rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+/* ---------- 11. Apparition en fondu au défilement ---------- */
+/* La classe .js est ajoutée sur <html> par main.js : sans
+   JavaScript, rien n'est caché et le contenu reste lisible. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* =========================================================
+   Palier 1 : tablette (≥ 768 px)
+   ========================================================= */
+@media (min-width: 48em) {
+  :root {
+    --gutter: 2rem;
+    --section-space: 4.5rem;
+  }
+
+  body {
+    font-size: 1.125rem; /* 18 px */
+  }
+
+  .site-logo {
+    font-size: 1.75rem;
+  }
+
+  .hero {
+    min-height: 40rem;
+  }
+
+  .hero__image {
+    object-position: 35% 20%;
+  }
+
+  .hero__title {
+    font-size: 3.5rem;
+  }
+
+  .hero__tagline {
+    font-size: 1.5rem;
+  }
+
+  .section__title {
+    font-size: 2.25rem;
+  }
+
+  .page-title {
+    font-size: 3.5rem;
+  }
+
+  /* Biographie : photo et texte côte à côte, en zigzag */
+  .bio-row {
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  /* Un bloc sur deux : la photo passe à droite */
+  .bio-row:nth-child(even) {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  .bio-row:nth-child(even) .bio-row__photo {
+    order: 2;
+  }
+
+  /* 3 colonnes de photos dans les sections */
+  .photo-grid--three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Pages Musique, Spectacles, Presse et Contact */
+  .simple-list {
+    columns: 3;
+  }
+
+  .album-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .press-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .contact-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem;
+  }
+
+  .site-footer__inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
+
+/* =========================================================
+   Palier 2 : ordinateur (≥ 1024 px)
+   ========================================================= */
+@media (min-width: 64em) {
+  :root {
+    --section-space: 6rem;
+  }
+
+  /* Le burger disparaît, le menu complet s'affiche en ligne */
+  .menu-toggle {
+    display: none;
+  }
+
+  .site-header__bar {
+    padding-block: 1rem;
+  }
+
+  .main-nav,
+  .main-nav.is-open {
+    display: block;
+    position: static;       
+    background-color: transparent;
+    border-top: 0;
+    border-bottom: 0;     
+    padding: 0;
+  }
+
+  .main-nav__list {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .main-nav a {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.9375rem;
+  }
+
+  /* Hero : le nom passe à droite, côté fond noir de la photo */
+  .hero {
+    min-height: 45rem;
+  }
+
+  .hero__image {
+    object-position: 30% 30%;
+  }
+
+  .hero::after {
+    background:
+      linear-gradient(
+        to left,
+        rgba(18, 18, 18, 0.92) 0%,
+        rgba(18, 18, 18, 0.55) 45%,
+        rgba(18, 18, 18, 0) 75%
+      ),
+      linear-gradient(to top, rgba(18, 18, 18, 0.9) 0%, rgba(18, 18, 18, 0) 40%);
+  }
+
+  .hero__content {
+    align-items: flex-end;
+    text-align: right;
+    padding-block: 6rem;
+  }
+
+  .hero__title {
+    font-size: 4.5rem;
+  }
+
+  .hero__tagline {
+    font-size: 1.75rem;
+  }
+
+  .section__title {
+    font-size: 2.75rem;
+    margin-bottom: 3rem;
+  }
+
+  .page-title {
+    font-size: 4.5rem;
+  }
+
+  .bio {
+    gap: 4rem;
+  }
+
+  .bio-row {
+    gap: 3rem;
+  }
+
+  .video {
+    max-width: 62.5rem;
+    margin-inline: auto;
+  }
+
+  /* Sections rubrique : texte à gauche, photos à droite */
+  .topic {
+    grid-template-columns: 2fr 3fr;
+    align-items: start;
+    gap: 3rem;
+  }
+
+  /* La colonne de texte est plus étroite : on revient à 2 colonnes */
+  .topic .simple-list {
+    columns: 2;
+  }
+
+  .album-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3rem;
+  }
+
+  .press-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2.5rem 1.5rem;
+  }
+}
+
+/* =========================================================
+   Préférence « réduire les animations »
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .menu-toggle__icon,
+  .menu-toggle__icon::before,
+  .menu-toggle__icon::after {
+    transition: none;
+  }
+}

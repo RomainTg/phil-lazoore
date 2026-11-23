@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acteur — Philippe Lazoore</title>
+  <meta name="description" content="Philippe Lazoore acteur : cinéma, coulisses, cascade et télévision.">
+
+  <script>document.documentElement.classList.add("js");</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500&display=swap">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <!-- ===================== EN-TÊTE ===================== -->
+  <header class="site-header">
+    <div class="container site-header__bar">
+      <a class="site-logo" href="index.html">Philippe Lazoore</a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Ouvrir le menu">
+        <span class="menu-toggle__icon" aria-hidden="true"></span>
+      </button>
+
+      <nav id="main-nav" class="main-nav" aria-label="Navigation principale">
+        <ul class="main-nav__list">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="acteur.html" aria-current="page">Acteur</a></li>
+          <li><a href="musique.html">Musique</a></li>
+          <li><a href="spectacles.html">Spectacles</a></li>
+          <li><a href="videos.html">Vidéos</a></li>
+          <li><a href="presse.html">Presse</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <!-- ===================== TITRE + SOUS-MENU ===================== -->
+    <div class="container page-intro">
+      <h1 class="page-title">Acteur</h1>
+
+      <!-- Liens vers les sections de la page : défilement fluide grâce à
+           scroll-behavior: smooth dans le CSS -->
+      <nav class="subnav" aria-label="Sections de la page">
+        <ul class="subnav__list">
+          <li><a href="#cinema">Cinéma</a></li>
+          <li><a href="#coulisses">Coulisses</a></li>
+          <li><a href="#cascade">Cascade</a></li>
+          <li><a href="#television">Télévision</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- ===================== CINÉMA ===================== -->
+    <!-- Modèle de section unique : titre + texte + photos.
+         On le copie pour chaque sous-rubrique en changeant l'id. -->
+    <section id="cinema" class="section" aria-labelledby="titre-cinema">
+      <div class="container topic">
+        <div class="topic__text reveal">
+          <h2 id="titre-cinema" class="section__title">Cinéma</h2>
+          <p class="text-muted">[Texte de présentation — repris de l'ancien site]</p>
+
+          <h3 class="topic__subtitle">Filmographie</h3>
+          <ul class="film-list">
+            <li><span>[Titre du film]</span><span class="text-muted">[Année]</span></li>
+            <li><span>[Titre du film]</span><span class="text-muted">[Année]</span></li>
+            <li><span>[Titre du film]</span><span class="text-muted">[Année]</span></li>
+          </ul>
+        </div>
+
+        <!-- Les vraies photos seront des <img loading="lazy" ...> -->
+        <div class="photo-grid reveal">
+          <div class="placeholder ratio-portrait">[Photo]</div>
+          <div class="placeholder ratio-portrait">[Photo]</div>
+          <div class="placeholder ratio-portrait">[Photo]</div>
+          <div class="placeholder ratio-portrait">[Photo]</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== COULISSES ===================== -->
+    <section id="coulisses" class="section" aria-labelledby="titre-coulisses">
+      <div class="container topic">
+        <div class="topic__text reveal">
+          <h2 id="titre-coulisses" class="section__title">Coulisses</h2>
+          <p class="text-muted">[Texte de présentation — repris de l'ancien site]</p>
+        </div>
+        <div class="photo-grid photo-grid--three reveal">
+          <div class="placeholder ratio-square">[Photo]</div>
+          <div class="placeholder ratio-square">[Photo]</div>
+          <div class="placeholder ratio-square">[Photo]</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CASCADE ===================== -->
+    <section id="cascade" class="section" aria-labelledby="titre-cascade">
+      <div class="container topic">
+        <div class="topic__text reveal">
+          <h2 id="titre-cascade" class="section__title">Cascade</h2>
+          <p class="text-muted">[Texte de présentation — repris de l'ancien site]</p>
+        </div>
+        <div class="photo-grid photo-grid--three reveal">
+          <div class="placeholder ratio-square">[Photo]</div>
+          <div class="placeholder ratio-square">[Photo]</div>
+          <div class="placeholder ratio-square">[Photo]</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TÉLÉVISION ===================== -->
+    <section id="television" class="section" aria-labelledby="titre-television">
+      <div class="container topic">
+        <div class="topic__text reveal">
+          <h2 id="titre-television" class="section__title">Télévision</h2>
+          <p class="text-muted">[Texte de présentation — repris de l'ancien site]</p>
+        </div>
+        <div class="photo-grid photo-grid--three reveal">
+          <div class="placeholder ratio-square">[Photo]</div>
+          <div class="placeholder ratio-square">[Photo]</div>
+          <div class="placeholder ratio-square">[Photo]</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== PIED DE PAGE ===================== -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__links">
+        <span class="site-footer__name">Philippe Lazoore</span>
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="confidentialite.html">Politique de confidentialité</a>
+      </div>
+      <p>© 2027 Philippe Lazoore</p>
+    </div>
+  </footer>
+</body>
+</html>
